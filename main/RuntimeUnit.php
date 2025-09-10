@@ -7,7 +7,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RuntimeUnit extends Unit
 {
-    protected string $name = 'test_orders';
+    protected string $name = 'tests';
 
     protected function run(AMQPMessage $msg): void
     {

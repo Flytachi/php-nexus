@@ -16,7 +16,7 @@ class MainController extends RestController
         $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
 
-        $queueName = 'ut_test_orders';
+        $queueName = 'tests';
 
         $channel->queue_declare($queueName, false, true, false, false);
 
