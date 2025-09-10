@@ -1,0 +1,45 @@
+{
+    "name": "flytachi/nexus",
+    "description": "Extra Framework",
+    "type": "project",
+    "license": "MIT",
+    "version": "1.0.0",
+    "extra": {},
+    "keywords": [
+        "Nexus",
+        "nexus",
+        "framework"
+    ],
+    "scripts": {
+        "post-create-project-cmd": [
+            "chmod -R 777 storage",
+            "@php extra cfg init"
+        ],
+        "dev-server": "@php -S 0.0.0.0:8000 -t ./public",
+        "test": "phpunit tests"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "Main\\": "main/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Flytachi",
+            "email": "jasur.rakhmatov03@gmail.com"
+        }
+    ],
+    "require": {
+        "flytachi/kernel": "~5.7.0",
+        "php-amqplib/php-amqplib": "@stable"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/flytachi/php-nexus.git"
+    }
+}
