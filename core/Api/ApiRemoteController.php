@@ -2,7 +2,7 @@
 
 namespace Core\Api;
 
-use Core\Reactor;
+use Core\Nexus;
 use Flytachi\Kernel\Src\Errors\ClientError;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\DeleteMapping;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\GetMapping;
@@ -23,16 +23,16 @@ class ApiRemoteController extends RestController
     {
         switch ($argument) {
             case 'stats':
-                $response = Reactor::stats();
+                $response = Nexus::stats();
                 break;
             case 'pids':
-                $response = Reactor::threadList();
+                $response = Nexus::threadList();
                 break;
             case 'status':
-                $status = Reactor::status();
+                $status = Nexus::status();
                 $response = [
                     'pid' => $status['pid'] ?? null,
-                    'className' => $status['className'] ?? Reactor::class,
+                    'className' => $status['className'] ?? Nexus::class,
                     'condition' => $status['condition'] ?? 'passive',
                     'balancer' => $status['balancer'] ?? null,
                     'info' => $status['info'] ?? null,
@@ -40,17 +40,17 @@ class ApiRemoteController extends RestController
                 ];
                 break;
             case '':
-                $status = Reactor::status();
+                $status = Nexus::status();
                 $response = [
                     'status' => [
                         'pid' => $status['pid'] ?? null,
-                        'className' => $status['className'] ?? Reactor::class,
+                        'className' => $status['className'] ?? Nexus::class,
                         'condition' => $status['condition'] ?? 'passive',
                         'balancer' => $status['balancer'] ?? null,
                         'info' => $status['info'] ?? null,
                         'startedAt' => $status['startedAt'] ?? null
                     ],
-                    'stats' => Reactor::stats()
+                    'stats' => Nexus::stats()
                 ];
                 break;
             default:
@@ -63,14 +63,14 @@ class ApiRemoteController extends RestController
     #[PatchMapping]
     public function start(): Response
     {
-        Reactor::dispatch();
+        Nexus::dispatch();
         return new Response(null, HttpCode::ACCEPTED);
     }
 
     #[DeleteMapping]
     public function stop(): Response
     {
-        Reactor::stop();
+        Nexus::stop();
         return new Response(null, HttpCode::ACCEPTED);
     }
 }

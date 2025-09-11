@@ -6,7 +6,7 @@ use Flytachi\Kernel\Src\Stereotype\Cluster;
 use Flytachi\Kernel\Src\Unit\File\JSON;
 use Main\RuntimeUnit;
 
-class Reactor extends Cluster
+class Nexus extends Cluster
 {
     public function run(mixed $data = null): void
     {
