@@ -28,6 +28,9 @@ distributes tasks between them and controls their life cycle.
 - RabbitMQ host
 - php 8.3
 - composer
+#### or
+- RabbitMQ host
+- Docker / docker-compose
 
 ### Settings (composer)
 -- Be sure to set up an environment variable (Environment)
@@ -38,6 +41,24 @@ distributes tasks between them and controls their life cycle.
 #### Install all missing components
 ```sh
   composer install
+```
+
+### Settings (docker)
+-- Be sure to set up an environment variable (Environment)
+
+#### Collect image
+```sh
+  docker build -t smpp_kannel_server .
+```
+#### Launch container
+```sh
+  docker run -d --name smpp_kannel_server --network bridge -p 8000:80 -v $(pwd):/var/www/html smpp_kannel_server
+```
+
+### Settings (docker-compose)
+#### Launch container
+```sh
+  docker compose up -d
 ```
 
 <hr>
@@ -87,10 +108,10 @@ otherwise the commands will not work
 <strong>started (php/composer)</strong>
 started web interface
 ```sh 
-php extra run serve --port=8000
+  php extra run serve --port=8111
 ```
 
-In the browser, contact the address `http://0.0.0.0:8000/`
+In the browser, contact the address `http://0.0.0.0:8111/web`
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

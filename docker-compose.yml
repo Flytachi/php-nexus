@@ -1,0 +1,12 @@
+services:
+  server:
+    network_mode: bridge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - COMPOSE_BAKE=true
+    ports:
+      - "8111:80"
+    volumes:
+      - ./:/var/www/html/

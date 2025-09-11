@@ -6,10 +6,10 @@ use Flytachi\Kernel\Src\Factory\Mapping\Annotation\GetMapping;
 use Flytachi\Kernel\Src\Stereotype\Response;
 use Flytachi\Kernel\Src\Stereotype\RestController;
 
-class MainController extends RestController
+class TestController extends RestController
 {
-    #[GetMapping]
-    public function hello(): Response
+    #[GetMapping('api/test')]
+    public function test(): Response
     {
         $tasks = [
             'Обработать заказ #1...',
