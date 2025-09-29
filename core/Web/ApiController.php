@@ -4,7 +4,6 @@ namespace Core\Web;
 
 use Core\Api\ApiLogController;
 use Core\Api\ApiRemoteController;
-use Flytachi\Kernel\Src\Errors\Error;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\DeleteMapping;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\GetMapping;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\PatchMapping;

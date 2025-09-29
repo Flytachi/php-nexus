@@ -10,7 +10,6 @@ use Flytachi\Kernel\Src\Factory\Mapping\Annotation\PostMapping;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\RequestMapping;
 use Flytachi\Kernel\Src\Http\HttpCode;
 use Flytachi\Kernel\Src\Stereotype\Response;
-use Flytachi\Kernel\Src\Stereotype\ResponseJson;
 use Flytachi\Kernel\Src\Stereotype\RestController;
 
 #[RequestMapping('web/auth')]
@@ -53,6 +52,7 @@ class AuthController extends RestController
     #[DeleteMapping]
     public function sessionClose(): Response
     {
+        $_SESSION['NX_TOKEN'] = false;
         session_destroy();
         return new Response('ASK');
     }

@@ -11,7 +11,6 @@ use Flytachi\Kernel\Src\Stereotype\View;
 #[RequestMapping('web')]
 class MainController extends RestController
 {
-    #[WebMiddleware]
     #[GetMapping]
     public function main(): View
     {

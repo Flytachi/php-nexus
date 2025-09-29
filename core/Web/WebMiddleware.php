@@ -13,7 +13,7 @@ class WebMiddleware extends Middleware
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        if (!$_SESSION['NX_TOKEN']) {
+        if (!(isset($_SESSION['NX_TOKEN']) && $_SESSION['NX_TOKEN'])) {
             throw new MiddlewareException('Authentication Failed');
         }
     }
