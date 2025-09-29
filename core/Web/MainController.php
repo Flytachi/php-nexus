@@ -11,11 +11,22 @@ use Flytachi\Kernel\Src\Stereotype\View;
 #[RequestMapping('web')]
 class MainController extends RestController
 {
+    #[WebMiddleware]
     #[GetMapping]
     public function main(): View
     {
         $info = Extra::projectInfo();
         return View::render('template', 'main', [
+            'version' => $info['extra']['project']['version'] ?? '?',
+            'name' => $info['extra']['project']['name'] ?? 'unknown',
+        ]);
+    }
+
+    #[GetMapping('login')]
+    public function login(): View
+    {
+        $info = Extra::projectInfo();
+        return View::view('login', [
             'version' => $info['extra']['project']['version'] ?? '?',
             'name' => $info['extra']['project']['name'] ?? 'unknown',
         ]);

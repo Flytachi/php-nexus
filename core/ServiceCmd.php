@@ -70,8 +70,12 @@ class ServiceCmd extends CmdCustom
     {
         $status = Nexus::status();
         if ($status != null) {
-            Signal::interrupt($status['pid']);
-            self::printMessage("Service stopped [PID:{$status['pid']}]", 32);
+            $pid = $status['pid'];
+            if (Signal::interruptAndWait($pid)) {
+                self::printMessage("Service stopped [PID:{$pid}]", 32);
+            } else {
+                self::printMessage("Service stopped [PID:{$status['pid']}] timeout");
+            }
         } else {
             self::printMessage("Service is not active");
         }

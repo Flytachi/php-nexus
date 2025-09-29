@@ -80,6 +80,10 @@ AMQP_HOST=localhost
 AMQP_PORT=5672
 AMQP_USER=guest
 AMQP_PASS=guest
+
+WEB_ADMIN_USER=admin                    # Web interface (username)
+WEB_ADMIN_PASS=admin                    # Web interface (username)
+UNIT_BALANCER=1                         # Qty Units (consumers)
 ```
 
 <hr>
@@ -89,17 +93,17 @@ Commands for service management! The shell must be responsive (php >= 8.3),<br>
 otherwise the commands will not work
 ### Start service:
 ```sh
-  php extra run script main.service start 
+  php extra run script core.service start
 ```
 
 ### Stop service:
 ```sh 
-  php extra run script main.service stop 
+  php extra run script core.service stop
 ```
 
 ### Service status:
 ```sh 
-  php extra run script main.service status 
+  php extra run script core.service status
 ```
 
 <hr>
@@ -112,6 +116,7 @@ started web interface
 ```
 
 In the browser, contact the address `http://0.0.0.0:8111/web`
+For authorization, set the required values in the environment WEB_ADMIN_USER and WEB_ADMIN_PASS
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

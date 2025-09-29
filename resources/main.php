@@ -1,69 +1,93 @@
-<div class="wrap">
-    <div class="top">
-        <div class="logo" aria-hidden="true">
-            <img src="/favicon.svg" width="60" alt="">
-        </div>
+<main class="grid">
 
-        <div class="title">
-            <h1>Nexus</h1>
-            <p class="muted">lightweight event broker</p>
-        </div>
-
-        <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
-            <div class="chip">v<?= resourceData('version') ?></div>
-            <div class="tag"><?= resourceData('name') ?></div>
-        </div>
-    </div>
-
-    <div class="grid">
-        <!-- left column: control panel -->
-        <div class="card panel">
-            <div>
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                    <div>
-                        <div class="k">Node Status</div>
-                        <div class="status" style="margin-top:8px">
-                            <div id="indicator" class="dot"></div>
-                            <div>
-                                <div style="font-weight:700" id="ind_name"></div>
-                                <div class="muted">status: <span id="ind_condition"></span></div>
-                                <div class="muted">PID: <span id="ind_pid"></span></div>
-                                <div class="muted"><span id="ind_started_at"></span></div>
-                            </div>
+    <section class="card panel">
+        <div>
+            <div class="status-header">
+                <div>
+                    <div class="k">Node status</div>
+                    <div class="status">
+                        <div id="indicator" class="dot offline"></div>
+                        <div>
+                            <div id="ind_name" class="status-name">...</div>
+                            <div class="muted">Status: <span id="ind_condition">...</span></div>
+                            <div class="muted">PID: <span id="ind_pid">...</span></div>
                         </div>
                     </div>
-                    <div style="text-align:right">
-                        <div class="k">Balancer</div>
-                        <div style="font-weight:700;font-size:18px" id="ind_balancer">0</div>
-                    </div>
+                </div>
+                <div class="balancer">
+                    <div class="k">Balancer</div>
+                    <div id="ind_balancer" class="balancer-value">0</div>
                 </div>
             </div>
+            <div class="muted" style="font-size: 12px; margin-top: 4px;">Launched: <span id="ind_started_at">...</span></div>
+        </div>
 
-            <div class="controls">
-                <button id="btnStart" style="display: none" onclick="nodeStart()" class="btn">Start Core</button>
-                <button id="btnStop" style="display: none" onclick="nodeStop()" class="btn ghost">Stop Core</button>
+        <div class="stats-list">
+            <div class="stat-item-kv">
+                <span class="k">Ready</span>
+                <span id="stats_ready" class="stat-value">0</span>
             </div>
-
-            <div style="margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:space-between">
-                <div class="muted">Connected: <strong id="connCount">0</strong> clients</div>
-                <div class="k">Last sync: <span id="lastSync">—</span></div>
+            <div class="stat-item-kv">
+                <span class="k">Unacked</span>
+                <span id="stats_unacked" class="stat-value">0</span>
+            </div>
+            <div class="stat-item-kv">
+                <span class="k">Total</span>
+                <span id="stats_total" class="stat-value">0</span>
+            </div>
+            <div class="stat-item-kv">
+                <span class="k">Consumers</span>
+                <span id="stats_consumers" class="stat-value">0</span>
             </div>
         </div>
 
-        <!-- right column: metrics & logs -->
-        <div class="card">
-            <div class="toolbar">
-                <div class="topic">
-                    <div style="font-weight:700">Logs:</div>
-                    <div class="chip">telemetry</div>
-                </div>
-                <div style="display:flex;gap:8px">
-                    <select id="logParamFileName" onchange="logStream()"></select>
-                    <button id="btnClear" class="btn ghost">Start</button>
-                </div>
+        <div class="pids-section">
+            <div class="k">Units (<span id="pids_count">0</span>)</div>
+            <div class="pids-container">
+                <span id="pids-string" class="pids-string"></span>
             </div>
-
-            <div class="log" id="log"></div>
         </div>
-    </div>
-</div>
+
+        <div class="controls">
+            <button id="btnStart" class="btn">Run the kernel</button>
+            <button id="btnStop" class="btn ghost">Stop the kernel</button>
+        </div>
+
+    </section>
+
+    <section class="card">
+        <div class="toolbar">
+            <div class="topic">
+                <strong>Logs:</strong>
+                <select id="logParamFileName"></select>
+            </div>
+            <div class="log-controls">
+                <span class="k">Limit:</span>
+                <select id="logLimitSelect">
+                    <option value="500">500</option>
+                    <option value="1000" selected>1000</option>
+                    <option value="3000">3000</option>
+                </select>
+                <span class="k">Timer (sec):</span>
+                <select id="logTimerSelect">
+                    <option value="5000">5</option>
+                    <option value="10000" selected>10</option>
+                    <option value="20000">20</option>
+                </select>
+                <button id="btnToggleLogs" class="btn ghost" style="width: 50px">&#x23F8;</button>
+            </div>
+        </div>
+        <div class="log" id="log"></div>
+    </section>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        checkAuth();
+
+        if (document.querySelector('.grid')) {
+            main();
+        }
+    });
+</script>

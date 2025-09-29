@@ -4,6 +4,7 @@ namespace Core;
 
 use Flytachi\Kernel\Src\Stereotype\Cluster;
 use Flytachi\Kernel\Src\Unit\File\JSON;
+use Flytachi\Kernel\Src\Unit\TimeTool;
 use Main\RuntimeUnit;
 
 class Nexus extends Cluster
@@ -11,11 +12,11 @@ class Nexus extends Cluster
     public function run(mixed $data = null): void
     {
         $this->logger?->info('START');
-        $this->prepare(3);
+        $this->prepare((int) env('UNIT_BALANCER', 1));
         $this->retentionUnit();
 
         while (true) {
-            sleep(5);
+            TimeTool::sleepSec(10);
             $this->retentionUnit();
         }
     }

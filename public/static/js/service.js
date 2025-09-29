@@ -7,6 +7,110 @@ class Service
             this.aXhr[key].abort();
     }
 
+    static isAuth(response) {
+        if (response.status === 401) {
+            window.location.href = '/web/login';
+        }
+    }
+
+    static sessionExist(
+        notifyError = true,
+        callbackSuccess = (response) => {},
+        callbackError = (response) => {},
+    ) {
+        this.cXhrInit('auth')
+
+        this.aXhr['auth'] = $.ajax({
+            type: "GET",
+            url: "/web/auth",
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                "Accept": "application/json"
+            },
+            success: function (response) {
+                callbackSuccess(response)
+            },
+            error: function (response) {
+                if (notifyError) {
+                    showNotification(
+                        'Error',
+                        response.responseJSON.message ?? 'Unknown error',
+                        'error'
+                    );
+                }
+                callbackError(response)
+            }
+        });
+    }
+
+    static login(
+        username, password,
+        notifyError = true,
+        callbackSuccess = (response) => {},
+        callbackError = (response) => {},
+    ) {
+        this.cXhrInit('auth')
+
+        this.aXhr['auth'] = $.ajax({
+            type: "POST",
+            url: "/web/auth",
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                "Accept": "application/json"
+            },
+            data: JSON.stringify({
+                username,
+                password
+            }),
+            success: function (response) {
+                callbackSuccess(response)
+            },
+            error: function (response) {
+                if (notifyError) {
+                    showNotification(
+                        'Error',
+                        response.responseJSON.message ?? 'Unknown error',
+                        'error'
+                    );
+                }
+                callbackError(response)
+            }
+        });
+    }
+
+    static logout(
+        notifyError = true,
+        callbackSuccess = (response) => {},
+        callbackError = (response) => {},
+    ) {
+        this.cXhrInit('auth')
+
+        this.aXhr['auth'] = $.ajax({
+            type: "DELETE",
+            url: "/web/auth",
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                "Accept": "application/json"
+            },
+            success: function (response) {
+                callbackSuccess(response)
+            },
+            error: function (response) {
+                if (notifyError) {
+                    showNotification(
+                        'Error',
+                        response.responseJSON.message ?? 'Unknown error',
+                        'error'
+                    );
+                }
+                callbackError(response)
+            }
+        });
+    }
+
     static serviceStatus(
         notifyError = true,
         callbackSuccess = (response) => {},
@@ -16,17 +120,17 @@ class Service
 
         this.aXhr['service'] = $.ajax({
             type: "GET",
-            url: "/api/remote/status",
+            url: "web/api/service",
             contentType: "application/json",
             dataType: "json",
             headers: {
                 "Accept": "application/json",
-                "User-Agent": "sentinel"
             },
             success: function (response) {
                 callbackSuccess(response)
             },
             error: function (response) {
+                Service.isAuth(response);
                 if (notifyError) {
                     showNotification(
                         'Error',
@@ -48,17 +152,17 @@ class Service
 
         this.aXhr['service'] = $.ajax({
             type: "PATCH",
-            url: "/api/remote",
+            url: "/web/api/service",
             contentType: "application/json",
             dataType: "json",
             headers: {
                 "Accept": "application/json",
-                "User-Agent": "sentinel"
             },
             success: function (response) {
                 callbackSuccess(response)
             },
             error: function (response) {
+                Service.isAuth(response);
                 if (notifyError) {
                     showNotification(
                         'Error',
@@ -80,17 +184,17 @@ class Service
 
         this.aXhr['service'] = $.ajax({
             type: "DELETE",
-            url: "/api/remote",
+            url: "/web/api/service",
             contentType: "application/json",
             dataType: "json",
             headers: {
-                "Accept": "application/json",
-                "User-Agent": "sentinel"
+                "Accept": "application/json"
             },
             success: function (response) {
                 callbackSuccess(response)
             },
             error: function (response) {
+                Service.isAuth(response);
                 if (notifyError) {
                     showNotification(
                         'Error',
@@ -112,17 +216,17 @@ class Service
 
         this.aXhr['logs_f'] = $.ajax({
             type: "GET",
-            url: "/api/logs/files",
+            url: "/web/api/logs/files",
             contentType: "application/json",
             dataType: "json",
             headers: {
-                "Accept": "application/json",
-                "User-Agent": "sentinel"
+                "Accept": "application/json"
             },
             success: function (response) {
                 callbackSuccess(response)
             },
             error: function (response) {
+                Service.isAuth(response);
                 if (notifyError) {
                     showNotification(
                         'Error',
@@ -146,7 +250,7 @@ class Service
 
         this.aXhr['logs'] = $.ajax({
             type: "GET",
-            url: "/api/logs",
+            url: "/web/api/logs",
             contentType: "application/json",
             dataType: "json",
             headers: {
@@ -158,6 +262,7 @@ class Service
                 callbackSuccess(response)
             },
             error: function (response) {
+                Service.isAuth(response);
                 if (notifyError) {
                     showNotification(
                         'Error',

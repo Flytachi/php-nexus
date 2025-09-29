@@ -50,7 +50,8 @@ class ApiRemoteController extends RestController
                         'info' => $status['info'] ?? null,
                         'startedAt' => $status['startedAt'] ?? null
                     ],
-                    'stats' => Nexus::stats()
+                    'stats' => Nexus::stats(),
+                    'pids' => Nexus::threadList()
                 ];
                 break;
             default:

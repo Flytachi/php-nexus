@@ -3,7 +3,7 @@
     "description": "Extra Framework",
     "type": "project",
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "extra": {},
     "keywords": [
         "Nexus",
@@ -33,7 +33,8 @@
     "require": {
         "php": ">=8.3",
         "flytachi/kernel": "~5.7.0",
-        "php-amqplib/php-amqplib": "@stable"
+        "php-amqplib/php-amqplib": "@stable",
+        "ext-pcntl": "*"
     },
 
     "require-dev": {
