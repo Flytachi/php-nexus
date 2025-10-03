@@ -93,8 +93,9 @@ class Nexus extends Cluster
                 }
             } else {
                 // down
+                $rotation = 5;
                 $diff = $currentQty - $qty;
-                while ($diff > 0) {
+                while ($diff > 0 && $rotation > 0) {
                     foreach ($this->threadList() as $thread) {
                         if ($diff <= 0) break;
                         $status = Nexus::gCondition($thread);
@@ -103,6 +104,7 @@ class Nexus extends Cluster
                             --$diff;
                         }
                     }
+                    --$rotation;
                 }
             }
         }
