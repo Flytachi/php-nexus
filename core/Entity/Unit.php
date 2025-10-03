@@ -2,6 +2,7 @@
 
 namespace Core\Entity;
 
+use Core\Nexus;
 use Flytachi\Kernel\Extra;
 use Flytachi\Kernel\Src\Unit\Algorithm;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -105,8 +106,7 @@ abstract class Unit
         ];
     }
 
-
-    final public static function working(?LoggerInterface $logger = null): void
+    final public static function working(int $pid, ?LoggerInterface $logger = null): void
     {
         $unit = new static($logger);
         $queueName = 'ut_' . (
@@ -125,13 +125,15 @@ abstract class Unit
         );
 
         $channel->basic_qos(null, 1, null);
-        $callback = function (AMQPMessage $msg) use (&$unit) {
+        $callback = function (AMQPMessage $msg) use (&$unit, $pid) {
             try {
+                Nexus::sCondition($pid, 'active');
                 $unit->run($msg);
             } catch (\Throwable $t) {
                 $unit->logger->error($t->getMessage());
             } finally {
                 $msg->ack();
+                Nexus::sCondition($pid, 'waiting');
             }
         };
 

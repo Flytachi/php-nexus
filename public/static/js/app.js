@@ -24,7 +24,7 @@ const ui = {
 function main() {
     addEventListeners();
     updateStatus();
-    setInterval(updateStatus, 7000);
+    setInterval(updateStatus, 3000);
     initializeLogs();
 }
 

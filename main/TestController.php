@@ -11,14 +11,10 @@ class TestController extends RestController
     #[GetMapping('api/test')]
     public function test(): Response
     {
-        $tasks = [
-            'Обработать заказ #1...',
-            'Сгенерировать отчет по заказу #2.',
-            'Отправить email для заказа #3....',
-            'Архивировать заказ #4..',
-            'Проверить платеж по заказу #5.',
-            'Обновить статус заказа #6....',
-        ];
+        $tasks = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $tasks[] = "Обработать заказ #".$i;
+        }
 
         Pusher::push(...$tasks);
         return new Response("hello");
