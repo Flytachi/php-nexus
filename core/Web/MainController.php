@@ -19,10 +19,13 @@ class MainController extends RestController
         return View::render('template', 'main', [
             'version' => $info['extra']['project']['version'] ?? '?',
             'name' => $info['extra']['project']['name'] ?? 'unknown',
-            'nexusVersion' => $info['version'] ?? '?',
-            'balancer' => env('UNIT_BALANCER', '?'),
-            'serverTimezone' => env('TIME_ZONE', 'UTC'),
-            'webTimezone' => date_default_timezone_get(),
+            'information' => [
+                'Project Name' => $info['extra']['project']['name'] ?? 'unknown',
+                'Project Version' => $info['extra']['project']['version'] ?? '?',
+                'Nexus Version' => $info['version'] ?? '?',
+                'Balancer Load' => env('UNIT_BALANCER', '?'),
+                'Server Timezone' => env('TIME_ZONE', 'UTC')
+            ]
         ]);
     }
 

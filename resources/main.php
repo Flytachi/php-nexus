@@ -137,26 +137,12 @@
             <!-- Information Tab -->
             <div class="tab-pane active" id="info">
                 <div class="config-content">
-                    <div class="config-item">
-                        <div class="config-label">Project Name</div>
-                        <div class="config-value"><?= resourceData('name') ?></div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-label">Project Version</div>
-                        <div class="config-value">v<?= resourceData('version') ?></div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-label">Nexus Version</div>
-                        <div class="config-value">v<?= resourceData('nexusVersion') ?></div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-label">Balancer Load</div>
-                        <div class="config-value"><?= resourceData('balancer') ?></div>
-                    </div>
-                    <div class="config-item">
-                        <div class="config-label">Server Timezone</div>
-                        <div class="config-value"><?= resourceData('serverTimezone') ?></div>
-                    </div>
+                    <?php foreach (resourceData('information') as $label => $value): ?>
+                        <div class="config-item">
+                            <div class="config-label"><?= $label ?></div>
+                            <div class="config-value"><?= $value ?></div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
