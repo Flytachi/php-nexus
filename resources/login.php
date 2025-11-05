@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div id="notification-container"></div>
+    <div id="notificationContainer"></div>
 
 </body>
 

@@ -46,5 +46,9 @@ class ApiController extends RestController
         return (new ApiLogController)->list();
     }
 
-
+    #[GetMapping('units')]
+    public function units(): ResponseJson
+    {
+        return (new ApiRemoteController)->units();
+    }
 }

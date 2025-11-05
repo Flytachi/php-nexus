@@ -30,13 +30,13 @@ async function handleLogout(e) {
     e.preventDefault();
     Service.logout(false,
         (response) => {
-            showNotification('Logout', 'Successfully', 'success');
+            showNotification('Logout', 'Successfully logged out', 'success');
             setTimeout(function() {
                 window.location.href = '/web/login';
             }, 1000);
         },
         (response) => {
-            showNotification('Logout Error', response.responseJSON.message, 'error');
+            showNotification('Logout', response.responseJSON.message, 'error');
         }
     )
 }

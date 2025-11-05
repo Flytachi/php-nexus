@@ -2,6 +2,7 @@
 
 namespace Core\Web;
 
+use Core\Nexus;
 use Flytachi\Kernel\Extra;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\GetMapping;
 use Flytachi\Kernel\Src\Factory\Mapping\Annotation\RequestMapping;
@@ -18,6 +19,10 @@ class MainController extends RestController
         return View::render('template', 'main', [
             'version' => $info['extra']['project']['version'] ?? '?',
             'name' => $info['extra']['project']['name'] ?? 'unknown',
+            'nexusVersion' => $info['version'] ?? '?',
+            'balancer' => env('UNIT_BALANCER', '?'),
+            'serverTimezone' => env('TIME_ZONE', 'UTC'),
+            'webTimezone' => date_default_timezone_get(),
         ]);
     }
 

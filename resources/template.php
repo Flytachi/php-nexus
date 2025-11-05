@@ -23,19 +23,19 @@
                 <p class="muted">lightweight event broker</p>
             </div>
 
-            <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+            <div class="header-meta">
                 <div class="chip">v<?= resourceData('version') ?></div>
                 <div class="tag"><?= resourceData('name') ?></div>
             </div>
 
-            <button id="btnLogout" class="btn ghost" style="width: 50px">&#8594;</button>
+            <button id="btnLogout" class="btn ghost" style="width: 50px" title="Logout">&#8594;</button>
         </header>
 
         <?php resourceContent(); ?>
 
     </div>
 
-    <div id="notification-container"></div>
+    <div id="notificationContainer"></div>
 
 </body>
 

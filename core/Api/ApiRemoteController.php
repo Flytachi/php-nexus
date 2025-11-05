@@ -79,6 +79,22 @@ class ApiRemoteController extends RestController
         return new ResponseJson($response);
     }
 
+    #[GetMapping('units')]
+    public function units(): ResponseJson
+    {
+        $threads = Nexus::threadListInfo(true);
+        foreach ($threads as $key => $thread) {
+            $threadData = [
+                'status' => (array) $thread->status,
+                'stats' => $thread->stats ?? null,
+            ];
+            $threadData['status']['condition'] = $threadData['status']['condition']->name;
+            $threadData['status']['startedAt'] = date('Y-m-d H:i:s P', $threadData['status']['startedAt']);
+            $threads[$key] = $threadData;
+        }
+        return new ResponseJson($threads);
+    }
+
     #[PatchMapping]
     public function start(): Response
     {

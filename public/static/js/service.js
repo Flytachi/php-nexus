@@ -3,8 +3,8 @@ class Service
     static aXhr = [];
 
     static cXhrInit(key = 'default') {
-        if(this.aXhr[key] && this.aXhr[key].readyState !== 4)
-            this.aXhr[key].abort();
+        // if(this.aXhr[key] && this.aXhr[key].readyState !== 4)
+            // this.aXhr[key].abort();
     }
 
     static isAuth(response) {
@@ -32,6 +32,7 @@ class Service
                 callbackSuccess(response)
             },
             error: function (response) {
+                console.log(response);
                 if (notifyError) {
                     showNotification(
                         'Error',
@@ -275,4 +276,36 @@ class Service
         });
     }
 
+    static unitList(
+        notifyError = true,
+        callbackSuccess = (response) => {},
+        callbackError = (response) => {},
+    ) {
+        this.cXhrInit('units')
+
+        this.aXhr['units'] = $.ajax({
+            type: "GET",
+            url: "/web/api/units",
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                "Accept": "application/json",
+                "User-Agent": "sentinel"
+            },
+            success: function (response) {
+                callbackSuccess(response)
+            },
+            error: function (response) {
+                Service.isAuth(response);
+                if (notifyError) {
+                    showNotification(
+                        'Error',
+                        response.responseJSON.message ?? 'Unknown error',
+                        'error'
+                    );
+                }
+                callbackError(response)
+            }
+        });
+    }
 }
