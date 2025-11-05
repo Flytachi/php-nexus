@@ -40,13 +40,14 @@ function addEventListeners() {
 
 async function updateStatus() {
     Service.serviceStatus(true, (response) => {
-        ui.indName.textContent = response.status.className;
-        ui.indCondition.textContent = response.status.condition;
-        ui.indPid.textContent = response.status.pid || 'N/A';
-        ui.indStartedAt.textContent = response.status.startedAt || '...';
-        ui.indBalancer.textContent = response.status.balancer;
+        console.log(response)
+        ui.indName.textContent = response.info.status.className;
+        ui.indCondition.textContent = response.info.status.condition;
+        ui.indPid.textContent = response.info.status.pid || 'N/A';
+        ui.indStartedAt.textContent = response.info.status.startedAt || '...';
+        ui.indBalancer.textContent = response.info.status.balancer;
 
-        if (response.status.condition === 'active') {
+        if (response.info.status.condition === 'ACTIVE') {
             ui.indicator.classList.remove('offline');
             ui.indicator.classList.add('online');
             ui.btnStart.style.display = 'none';
@@ -64,13 +65,13 @@ async function updateStatus() {
         document.getElementById('stats_total').textContent = stats.total;
         document.getElementById('stats_consumers').textContent = stats.consumers;
 
-        const pids = response.pids || [];
-        document.getElementById('pids_count').textContent = pids.length;
-        const pidsStringContainer = document.getElementById('pids-string');
-        if (pids.length > 0) {
-            pidsStringContainer.textContent = pids.join(', ');
+        const units = response.units || [];
+        document.getElementById('units_count').textContent = units.length;
+        const unitsStringContainer = document.getElementById('units-string');
+        if (units.length > 0) {
+            unitsStringContainer.textContent = units.join(', ');
         } else {
-            pidsStringContainer.textContent = 'No active units';
+            unitsStringContainer.textContent = 'No active units';
         }
 
     }, (response) => {
@@ -81,8 +82,8 @@ async function updateStatus() {
         document.getElementById('stats_unacked').textContent = '—';
         document.getElementById('stats_total').textContent = '—';
         document.getElementById('stats_consumers').textContent = '—';
-        document.getElementById('pids_count').textContent = '0';
-        document.getElementById('pids_list').innerHTML = '<div class="muted">Нет данных</div>';
+        document.getElementById('units_count').textContent = '0';
+        document.getElementById('units_list').innerHTML = '<div class="muted">Нет данных</div>';
     });
 }
 

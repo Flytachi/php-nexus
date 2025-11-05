@@ -4,6 +4,7 @@ namespace Core\Entity;
 
 use Core\Nexus;
 use Flytachi\Kernel\Extra;
+use Flytachi\Kernel\Src\Thread\Entity\ProcessCondition;
 use Flytachi\Kernel\Src\Unit\Algorithm;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -127,13 +128,13 @@ abstract class Unit
         $channel->basic_qos(null, 1, null);
         $callback = function (AMQPMessage $msg) use (&$unit, $pid) {
             try {
-                Nexus::sCondition($pid, 'active');
+                Nexus::threadSetCondition($pid, ProcessCondition::ACTIVE);
                 $unit->run($msg);
             } catch (\Throwable $t) {
                 $unit->logger->error($t->getMessage());
             } finally {
                 $msg->ack();
-                Nexus::sCondition($pid, 'waiting');
+                Nexus::threadSetCondition($pid, ProcessCondition::WAITING);
             }
         };
 
@@ -147,6 +148,7 @@ abstract class Unit
             $callback
         );
 
+        Nexus::threadSetCondition($pid, ProcessCondition::WAITING);
         while ($channel->is_consuming()) {
             $channel->wait();
         }

@@ -4,7 +4,7 @@
         <div>
             <div class="status-header">
                 <div>
-                    <div class="k">Node status</div>
+                    <div class="k">Info</div>
                     <div class="status">
                         <div id="indicator" class="dot offline"></div>
                         <div>
@@ -41,10 +41,10 @@
             </div>
         </div>
 
-        <div class="pids-section">
-            <div class="k">Units (<span id="pids_count">0</span>)</div>
-            <div class="pids-container">
-                <span id="pids-string" class="pids-string"></span>
+        <div class="units-section">
+            <div class="k">Units (<span id="units_count">0</span>)</div>
+            <div class="units-container">
+                <span id="units-string" class="units-string"></span>
             </div>
         </div>
 

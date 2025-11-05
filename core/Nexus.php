@@ -3,8 +3,8 @@
 namespace Core;
 
 use Flytachi\Kernel\Src\Stereotype\Cluster;
+use Flytachi\Kernel\Src\Thread\Entity\ProcessCondition;
 use Flytachi\Kernel\Src\Thread\Signal;
-use Flytachi\Kernel\Src\Unit\File\JSON;
 use Flytachi\Kernel\Src\Unit\TimeTool;
 use Main\RuntimeUnit;
 
@@ -32,8 +32,8 @@ class Nexus extends Cluster
     private function retentionUnit(): void
     {
         // basic level balance
-        if ($this->threadCount() == $this->balancer) return;
-        for ($i = $this->threadCount(); $i < $this->balancer; $i++) {
+        if ($this->threadQty() == $this->balancer) return;
+        for ($i = $this->threadQty(); $i < $this->balancer; $i++) {
             $this->threadProc();
         }
 
@@ -52,37 +52,13 @@ class Nexus extends Cluster
         ];
     }
 
-    protected function preparationThreadBefore(int $pid): void
-    {
-        JSON::write(static::stmThreadsPath() . "/{$pid}.json", [
-            'pid' => $pid,
-            'name' => RuntimeUnit::class,
-            'condition' => 'waiting',
-        ]);
-        $this->logger?->debug("started");
-    }
-
-    public static function sCondition(int $childPid, string $newCondition): void
-    {
-        $path = static::stmThreadsPath() . '/' . $childPid . '.json';
-        $data = JSON::read($path);
-        $data['condition'] = $newCondition;
-        JSON::write($path, $data);
-    }
-
-    public static function gCondition(int $childPid): string
-    {
-        $data = JSON::read(static::stmThreadsPath() . '/' . $childPid . '.json');
-        return $data['condition'];
-    }
-
     private function balancing(): void
     {
         if ($this->_balancer === null) {
             $this->_balancer = new Balancer();
         }
         $qty = $this->_balancer->balance(self::stats(), $this->balancer);
-        $currentQty = $this->threadCount();
+        $currentQty = $this->threadQty();
 
         if ($currentQty == $qty) return;
         else {
@@ -98,8 +74,8 @@ class Nexus extends Cluster
                 while ($diff > 0 && $rotation > 0) {
                     foreach ($this->threadList() as $thread) {
                         if ($diff <= 0) break;
-                        $status = Nexus::gCondition($thread);
-                        if ($status === 'waiting') {
+                        $info = Nexus::threadInfo($thread);
+                        if ($info?->status->condition === ProcessCondition::WAITING) {
                             Signal::close($thread);
                             --$diff;
                         }

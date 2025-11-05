@@ -157,11 +157,11 @@ select {
 .tag{padding:6px 8px;border-radius:8px;background:linear-gradient(90deg,var(--accent-2),var(--accent-3));font-weight:700}
 
 
-.pids-section {
+.units-section {
     margin-top: 20px;
 }
 
-.pids-container {
+.units-container {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 18px 12px;
@@ -169,7 +169,7 @@ select {
     overflow-x: auto;
 }
 
-.pids-string {
+.units-string {
     white-space: nowrap;
     font-family: monospace;
     font-size: 13px;

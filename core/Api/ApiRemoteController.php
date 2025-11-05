@@ -12,6 +12,7 @@ use Flytachi\Kernel\Src\Http\HttpCode;
 use Flytachi\Kernel\Src\Stereotype\Response;
 use Flytachi\Kernel\Src\Stereotype\ResponseJson;
 use Flytachi\Kernel\Src\Stereotype\RestController;
+use Flytachi\Kernel\Src\Thread\Entity\ProcessCondition;
 
 #[ApiMiddleware]
 #[RequestMapping('api/remote')]
@@ -29,29 +30,46 @@ class ApiRemoteController extends RestController
                 $response = Nexus::threadList();
                 break;
             case 'status':
-                $status = Nexus::status();
+                $status = Nexus::status()?->status;
                 $response = [
-                    'pid' => $status['pid'] ?? null,
-                    'className' => $status['className'] ?? Nexus::class,
-                    'condition' => $status['condition'] ?? 'passive',
-                    'balancer' => $status['balancer'] ?? null,
-                    'info' => $status['info'] ?? null,
-                    'startedAt' => $status['startedAt'] ?? null
+                    'pid' => $status->pid ?? null,
+                    'className' => $status->className ?? Nexus::class,
+                    'condition' => $status->condition?->name ?? ProcessCondition::PASSIVE->name,
+                    'balancer' => $status->balancer ?? null,
+                    'info' => $status->info ?? null,
+                    'startedAt' => $status?->getStartedAt()
+                ];
+                break;
+            case 'info':
+                $info = Nexus::status(true);
+                $response = [
+                    'status' => [
+                        'pid' => $info?->status->pid ?? null,
+                        'className' => $info?->status->className ?? Nexus::class,
+                        'condition' => $info?->status->condition->name ?? ProcessCondition::PASSIVE->name,
+                        'balancer' => $info?->status->balancer ?? null,
+                        'info' => $info?->status->info ?? null,
+                        'startedAt' => $info?->status->getStartedAt()
+                    ],
+                    'stats' => $info->stats ?? null,
                 ];
                 break;
             case '':
-                $status = Nexus::status();
+                $info = Nexus::status(true);
                 $response = [
-                    'status' => [
-                        'pid' => $status['pid'] ?? null,
-                        'className' => $status['className'] ?? Nexus::class,
-                        'condition' => $status['condition'] ?? 'passive',
-                        'balancer' => $status['balancer'] ?? null,
-                        'info' => $status['info'] ?? null,
-                        'startedAt' => $status['startedAt'] ?? null
+                    'info' => [
+                        'status' => [
+                            'pid' => $info?->status->pid ?? null,
+                            'className' => $info?->status->className ?? Nexus::class,
+                            'condition' => $info?->status->condition->name ?? ProcessCondition::PASSIVE->name,
+                            'balancer' => $info?->status->balancer ?? null,
+                            'info' => $info?->status->info ?? null,
+                            'startedAt' => $info?->status->getStartedAt()
+                        ],
+                        'stats' => $info->stats ?? null,
                     ],
                     'stats' => Nexus::stats(),
-                    'pids' => Nexus::threadList()
+                    'units' => Nexus::threadList()
                 ];
                 break;
             default:
