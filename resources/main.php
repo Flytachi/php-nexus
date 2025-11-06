@@ -179,7 +179,7 @@
                         </thead>
                         <tbody id="unitsTableBody">
                         <tr>
-                            <td colspan="8" class="empty-message">No units available</td>
+                            <td colspan="9" class="empty-message">No units available</td>
                         </tr>
                         </tbody>
                     </table>
