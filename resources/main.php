@@ -20,12 +20,12 @@
             </div>
             <div class="status-main">
                 <div class="status-title">
-                    <div id="statusName" class="status-name">Offline</div>
+                    <div id="statusName" class="status-name">N/A</div>
                     <div id="statusClass" class="status-class">—</div>
                 </div>
                 <div class="status-condition">
                     <span class="condition-label">Condition:</span>
-                    <span id="statusCondition" class="condition-value">Unknown</span>
+                    <span id="statusCondition" class="status-badge status-STARTED">Unknown</span>
                 </div>
                 <div class="status-time">
                     <span class="time-label">Started:</span>

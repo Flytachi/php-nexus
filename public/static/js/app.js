@@ -168,9 +168,10 @@ async function updateStatus() {
         const isPassive = status.condition === 'PASSIVE';
 
         // Update main status info
-        ui.statusName.textContent = status.condition || 'Unknown';
+        ui.statusName.textContent = status.pid || 'N/A';
         ui.statusClass.textContent = status.className || '—';
         ui.statusCondition.textContent = status.condition || 'Unknown';
+        ui.statusCondition.className = `status-badge status-${status.condition}`;
         ui.startedAt.textContent = status.startedAt || '—';
         ui.balancerValue.textContent = status.balancer || '0';
 

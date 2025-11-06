@@ -456,7 +456,7 @@ html, body {
     background: rgba(0, 102, 255, 0.05);
 }
 
-.units-table .status-badge {
+.status-badge {
     display: inline-block;
     padding: 4px 8px;
     border-radius: 4px;
@@ -464,32 +464,32 @@ html, body {
     font-weight: 600;
 }
 
-.units-table .status-STARTED {
+.status-STARTED {
     background: rgb(152, 160, 172, 0.2);
     color: var(--muted);
 }
 
-.units-table .status-PREPARATION {
+.status-PREPARATION {
     background: rgba(255, 128, 0, 0.2);
     color: var(--warning);
 }
 
-.units-table .status-WAITING {
+.status-WAITING {
     background: rgba(0, 102, 255, 0.2);
     color: var(--accent-1);
 }
 
-.units-table .status-CHECKING {
+.status-CHECKING {
     background: rgba(0, 195, 255, 0.2);
     color: var(--accent-2);
 }
 
-.units-table .status-ACTIVE {
+.status-ACTIVE {
     background: rgba(34, 197, 94, 0.2);
     color: var(--success);
 }
 
-.units-table .status-PASSIVE {
+.status-PASSIVE {
     background: rgba(239, 68, 68, 0.2);
     color: var(--danger);
 }
