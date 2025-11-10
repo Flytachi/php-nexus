@@ -130,7 +130,7 @@ abstract class Unit
             false
         );
 
-        $channel->basic_qos(null, 1, null);
+        $channel->basic_qos(0, 1, null);
         $callback = function (AMQPMessage $msg) use (&$unit, $pid) {
             try {
                 Nexus::threadSetCondition($pid, ProcessCondition::ACTIVE);
