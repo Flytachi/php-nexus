@@ -42,7 +42,7 @@ class ApiLogController extends RestController
             $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             $lastLines = array_slice($lines, -$limit);
             foreach ($lastLines as $line) {
-                preg_match('/\b(DEBUG|INFO|WARNING|ERROR|CRITICAL|ALERT)\b/', $line, $matches);
+                preg_match('/\b(DEBUG|INFO|WARNING|NOTICE|ERROR|CRITICAL|ALERT)\b/', $line, $matches);
                 $logLevel = isset($matches[1]) ? strtolower($matches[1]) : "default";
 
                 $logs[] = [

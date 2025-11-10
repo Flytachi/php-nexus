@@ -4,6 +4,7 @@ namespace Core\Entity;
 
 use Core\Nexus;
 use Flytachi\Kernel\Extra;
+use Flytachi\Kernel\Src\Errors\Error;
 use Flytachi\Kernel\Src\Thread\Entity\ProcessCondition;
 use Flytachi\Kernel\Src\Unit\Algorithm;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -29,10 +30,14 @@ abstract class Unit
     protected function connection(): AMQPStreamConnection
     {
         return new AMQPStreamConnection(
-            env('AMQP_HOST', 'localhost'),
-            env('AMQP_PORT', 5672),
-            env('AMQP_USER', 'guest'),
-            env('AMQP_PASS', 'guest'),
+            host: env('AMQP_HOST', 'localhost'),
+            port: env('AMQP_PORT', 5672),
+            user: env('AMQP_USER', 'guest'),
+            password: env('AMQP_PASS', 'guest'),
+            connection_timeout: 10.0,
+            read_write_timeout: 30.0,
+            keepalive: true,
+            heartbeat: 60,
         );
     }
 
@@ -140,7 +145,7 @@ abstract class Unit
 
         $channel->basic_consume(
             $queueName,
-            '',
+            'unit-' . $pid,
             false,
             false,
             false,
@@ -150,7 +155,16 @@ abstract class Unit
 
         Nexus::threadSetCondition($pid, ProcessCondition::WAITING);
         while ($channel->is_consuming()) {
-            $channel->wait();
+            try {
+                $channel->wait(null, false, 60);
+            } catch (\PhpAmqpLib\Exception\AMQPTimeoutException $e) {
+                // The connection is still alive (normal)
+                // $logger->notice("Timeout: {$e->getMessage()}");
+            } catch (\PhpAmqpLib\Exception\AMQPConnectionClosedException $e) {
+                Error::throw("Connection lost: {$e->getMessage()}");
+            } catch (\Exception $e) {
+                Error::throw("Unknown Error: {$e->getMessage()}");
+            }
         }
     }
 

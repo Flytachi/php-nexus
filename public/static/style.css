@@ -546,13 +546,15 @@ html, body {
 }
 
 /* --- Log Level Colors --- */
-.log-info { color: #e6eef8; }
-.log-alert { color: var(--accent-1); }
-.log-warning { color: var(--warning); }
-.log-error { color: var(--danger); font-weight: bold; }
-.log-success { color: var(--success); font-weight: bold; }
-.log-debug { color: #888; }
 .log-default { color: var(--muted); }
+.log-debug { color: #6c757d; }
+.log-info { color: var(--success); font-weight: bold; }
+.log-notice { color: var(--accent-2); }
+.log-warning { color: #ffc107; }
+.log-error { color: #dc3545; font-weight: bold; }
+.log-critical { color: #bd2130; font-weight: bold; }
+.log-alert { color: var(--warning); font-weight: bold; }
+.log-emergency { color: var(--accent-3); font-weight: bold; }
 
 /* --- METRICS TAB --- */
 .metrics-content {
